@@ -16,6 +16,7 @@ $router->get('/', function () use ($router) {
 });
 
 $router->post('check-username',     'AuthController@username');
+$router->post('check-phone-number',     'AuthController@phoneNumber');
 $router->post('check-email',        'AuthController@email');
 $router->post('register',           'AuthController@register');
 $router->post('forgot-password',    'AuthController@forgotPassword');

@@ -38,7 +38,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     // $additionalAttribute is Array Data
     public static function mapData($data, $additionalAttribute = null) {
         $result = [
-            'id' => $data->id
+            'id' => $data->id,
+            'name' => $data->name,
+            'username' => $data->username,
+            'password' => $data->password,
+            'phone_number' => $data->phone_number,
+            'city' => $data->city,
         ];
         if($additionalAttribute) {
             $result = array_merge($result, $additionalAttribute);

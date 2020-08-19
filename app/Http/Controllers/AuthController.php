@@ -18,10 +18,10 @@ class AuthController extends Controller
      */
     
     public function login(Request $request) {
-        $loginWithEmail = app('auth')->attempt(['email' => $request->username, 'password' => $request->password]);
+        $loginWithPhoneNumber = app('auth')->attempt(['phone_number' => $request->username, 'password' => $request->password]);
         $loginWithUsername = app('auth')->attempt(['username' => $request->username, 'password' => $request->password]);
-        if ($loginWithEmail) {
-            $token = $loginWithEmail;
+        if ($loginWithPhoneNumber) {
+            $token = $loginWithPhoneNumber;
         }
         else if($loginWithUsername) {
             $token = $loginWithUsername;
@@ -36,43 +36,27 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name'                  => 'required',
-            'email'                 => 'required|email|unique:tbl_users,email',
             'username'              => 'required|alpha_num|unique:tbl_users,username',
-            'whatsapp'              => 'nullable|numeric|unique:tbl_users,whatsapp',
-            'parent_phone_number'   => 'nullable|numeric',
-            'grade_level'           => 'nullable|numeric|between:1,12',
-            'is_teacher'            => 'nullable|boolean',
+            'phone_number'          => 'required|numeric|unique:tbl_users,phone_number',
             'password'              => 'required|min:6',
         ]);
         if ($validator->fails()) return $this->responseInvalidInput($validator->errors());
 
-        if($request->whatsapp[0] == "0") $request->whatsapp = substr($request->whatsapp, 1);
-        if(substr($request->whatsapp, 0, 3) == "620") {
-            $str1 = substr($request->whatsapp, 0, 2);
-            $str2 = substr($request->whatsapp, 3);
-            $request->whatsapp = $str1 . $str2;
+        if($request->phone_number[0] == "0") $request->phone_number = substr($request->phone_number, 1);
+        if(substr($request->phone_number, 0, 3) == "620") {
+            $str1 = substr($request->phone_number, 0, 2);
+            $str2 = substr($request->phone_number, 3);
+            $request->phone_number = $str1 . $str2;
         };
+        if($request->phone_number[0] == "8") $request->phone_number = "62" . $request->phone_number;
 
         $user = new User;
         $user->role_id = 2;
         $user->name = $request->name;
-        $user->email = $request->email;
         $user->username = $request->username;
         $user->password = app('hash')->make($request->password);
-        $user->birth_date = $request->birth_date;
-        $user->province_id = $request->province_id;
-        $user->province_name = $request->province_name;
-        $user->city_id = $request->city_id;
-        $user->city_name = $request->city_name;
-        $user->school = $request->school;
-        $user->nip = $request->nip;
-        $user->grade_level = $request->grade_level;
-        $user->is_teacher = $request->is_teacher;
-        $user->whatsapp = $request->whatsapp;
-        $user->parent_phone_number = $request->parent_phone_number;
-        if($request->profile_image) {
-            $user->profile_image = $this->uploadImage($request->profile_image);
-        }
+        $user->city = $request->city;
+        $user->phone_number = $request->phone_number;
         $user->save();
         return $this->responseOK(User::mapData($user));
     }
@@ -90,6 +74,12 @@ class AuthController extends Controller
         if(User::where('username', $request->username)->first())
             return $this->responseError("Username sudah digunakan");
         return $this->responseOK("Username tersedia");
+    }
+    
+    public function phoneNumber(Request $request) {
+        if(User::where('phone_number', $request->phone_number)->first())
+            return $this->responseError("Nomo HP sudah digunakan");
+        return $this->responseOK("Nomo HP tersedia");
     }
     
     public function email(Request $request) {
