@@ -34,6 +34,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return [];
     }
 
+    public function recomendations() {
+        return $this->hasMany('App\Models\RecomendationForUser', 'user_id');
+    }
+
     // $data is Array Data
     // $additionalAttribute is Array Data
     public static function mapData($data, $additionalAttribute = null) {
