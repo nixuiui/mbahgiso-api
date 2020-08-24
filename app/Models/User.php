@@ -45,7 +45,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'id' => $data->id,
             'name' => $data->name,
             'username' => $data->username,
-            'password' => $data->password,
             'phone_number' => $data->phone_number,
             'city' => $data->city,
             'balance' => $data->balance,

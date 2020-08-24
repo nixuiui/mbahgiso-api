@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\BalanceTopup;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,30 +13,21 @@ use Illuminate\Support\Facades\Validator;
 class ProfileController extends Controller
 {
 
-    public function getProfileDetail()
-    {
-
-        $class = User::where("id", Auth::user()->id)
-            ->first();
-
+    public function getProfileDetail() {
+        $class = User::where("id", Auth::user()->id)->first();
         if (!$class) {
             return $this->responseError("Data Tidak Ditemukan");
         }
-
         return $this->responseOK(User::mapData($class));
     }
 
-    public function editProfile(Request $request)
-    {
-
+    public function editProfile(Request $request) {
         $id = Auth::user()->id;
-
         $validator = Validator::make($request->all(), [
             'email' => "email|unique:tbl_users,email,$id",
             'username' => "unique:tbl_users,username,$id",
             'whatsapp' => "unique:tbl_users,whatsapp,$id",
         ]);
-
         if ($validator->fails()) {
             return $this->responseInvalidInput($validator->errors());
         }
@@ -118,6 +110,17 @@ class ProfileController extends Controller
 
         $data->save();
         return $this->responseOK(User::mapData($data));
+    }
+
+    public function topup(Request $request) {
+        $now = date("Y-m-d H:i:s");
+        $topup = new BalanceTopup;
+        $topup->user_id = Auth::user()->id;
+        $topup->balance = $request->balance;
+        $topup->status = "unpaid";
+        $topup->expired_date = date("Y-m-d H:i:s", strtotime($now . ' +1 day'));
+        $topup->save();
+        return $this->responseOK(BalanceTopup::mapData($topup));
     }
 
 }

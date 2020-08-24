@@ -30,7 +30,9 @@ $router->group(['middleware' => 'auth'], function ($router) {
 
     $router->get('/profile',            ['uses' => 'ProfileController@getProfileDetail', 'middleware' => 'auth']);
     $router->post('/profile/edit',      ['uses' => 'ProfileController@editProfile', 'middleware' => 'auth']);
+    $router->post('/profile/topup',     ['uses' => 'ProfileController@topup', 'middleware' => 'auth']);
     
     $router->get('/market/index',           ['uses' => 'DataController@marketIndex', 'middleware' => 'auth']);
     $router->get('/recomendation/{type}',   ['uses' => 'DataController@getRecomendation', 'middleware' => 'auth']);
+    
 });
