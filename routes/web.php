@@ -34,5 +34,9 @@ $router->group(['middleware' => 'auth'], function ($router) {
     
     $router->get('/market/index',           ['uses' => 'DataController@marketIndex', 'middleware' => 'auth']);
     $router->get('/recomendation/{type}',   ['uses' => 'DataController@getRecomendation', 'middleware' => 'auth']);
+    $router->post('/recomendation/buy',     ['uses' => 'DataController@buyRecomendation', 'middleware' => 'auth']);
+    $router->get('/recomendation/today',    ['uses' => 'DataController@todayRecomendation', 'middleware' => 'auth']);
+    $router->get('/recomendationdata/today',   ['uses' => 'DataController@todayRecomendationData', 'middleware' => 'auth']);
+    $router->post('/recomendationdata/buy',    ['uses' => 'DataController@buyRecomendationData', 'middleware' => 'auth']);
     
 });
