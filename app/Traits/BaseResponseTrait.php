@@ -20,7 +20,7 @@ trait BaseResponseTrait {
     // responseError("Error Message")
     // example with custome response Code: 
     // responseError("Error Message", 123)
-    public function responseError($message = null, $responseCode = 487) {
+    public function responseError($message = null, $responseCode = 400) {
         return response()->json(["message" => $message], $responseCode, [], JSON_NUMERIC_CHECK);
     }
     
@@ -28,7 +28,7 @@ trait BaseResponseTrait {
     // responseNotValidInput($jsonErrorValidation)
     // example with custome response Code: 
     // responseNotValidInput($jsonErrorValidation, 123)
-    public function responseInvalidInput($data = null, $responseCode = 488) {
+    public function responseInvalidInput($data = null, $responseCode = 400) {
         return response()->json($data, $responseCode, [], JSON_NUMERIC_CHECK);
     }
     
