@@ -37,6 +37,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name'                  => 'required',
             'username'              => 'required',
+            'email'                 => 'required',
             'phone_number'          => 'required',
             'password'              => 'required|min:6',
         ]);
@@ -44,6 +45,9 @@ class AuthController extends Controller
 
         $check = User::where("username", $request->username)->first();
         if($check) return $this->responseError("Maaf username sudah digunakan");
+        
+        $check = User::where("email", $request->email)->first();
+        if($check) return $this->responseError("Maaf email sudah digunakan");
 
         $check = User::where("phone_number", $request->phone_number)->first();
         if($check) return $this->responseError("Maaf No. HP sudah digunakan");
@@ -60,6 +64,7 @@ class AuthController extends Controller
         $user->role_id = 2;
         $user->name = $request->name;
         $user->username = $request->username;
+        $user->email = $request->email;
         $user->password = app('hash')->make($request->password);
         $user->city = $request->city;
         $user->phone_number = $request->phone_number;
