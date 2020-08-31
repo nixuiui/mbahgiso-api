@@ -36,11 +36,17 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name'                  => 'required',
-            'username'              => 'required|alpha_num|unique:tbl_users,username',
-            'phone_number'          => 'required|numeric|unique:tbl_users,phone_number',
+            'username'              => 'required',
+            'phone_number'          => 'required',
             'password'              => 'required|min:6',
         ]);
         if ($validator->fails()) return $this->responseInvalidInput($validator->errors());
+
+        $check = User::where("username", $request->username)->first();
+        if($check) return $this->responseError("Maaf username sudah digunakan");
+
+        $check = User::where("phone_number", $request->phone_number)->first();
+        if($check) return $this->responseError("Maaf No. HP sudah digunakan");
 
         if($request->phone_number[0] == "0") $request->phone_number = substr($request->phone_number, 1);
         if(substr($request->phone_number, 0, 3) == "620") {
@@ -57,8 +63,17 @@ class AuthController extends Controller
         $user->password = app('hash')->make($request->password);
         $user->city = $request->city;
         $user->phone_number = $request->phone_number;
-        $user->save();
-        return $this->responseOK(User::mapData($user));
+        if($user->save()) {
+            $loginWithUsername = app('auth')->attempt(['username' => $request->username, 'password' => $request->password]);
+            if($loginWithUsername) {
+                $token = $loginWithUsername;
+            }
+            else {
+                return $this->responseError("Maaf user tidak ditemukan.");
+            }
+            return $this->respondWithToken($token);
+        }
+        return $this->responseError("Gagal Register");
     }
 
     public function forgotPassword(Request $request) {
