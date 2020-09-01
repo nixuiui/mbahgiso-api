@@ -22,8 +22,9 @@ $router->post('register',           'AuthController@register');
 $router->post('forgot-password',    'AuthController@forgotPassword');
 $router->post('login',              'AuthController@login');
 
-$router->get('general/version',     'GeneralController@version');
-$router->get('general/time',        'GeneralController@time');
+$router->get('general/version',             'GeneralController@version');
+$router->get('general/time',                'GeneralController@time');
+$router->get('general/recomendation-price', 'GeneralController@recomendationPrice');
 
 $router->group(['middleware' => 'auth'], function ($router) {
     $router->post('logout',             'AuthController@logout');
