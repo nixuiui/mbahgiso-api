@@ -22,6 +22,7 @@ class BalanceTopup extends Model {
             'status' => $data->status,
             'expired_date' => $data->expired_date,
             'transfer_to' => "085783104873",
+            'whatsapp' => "085783104873",
             'approved_date' => $data->approved_date,
             'created_at' => $data->created_at,
             'updated_at' => $data->updated_at
