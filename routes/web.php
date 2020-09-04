@@ -39,5 +39,6 @@ $router->group(['middleware' => 'auth'], function ($router) {
     $router->get('/recomendation/today',    ['uses' => 'DataController@todayRecomendation', 'middleware' => 'auth']);
     $router->get('/recomendationdata/today',   ['uses' => 'DataController@todayRecomendationData', 'middleware' => 'auth']);
     $router->post('/recomendationdata/buy',    ['uses' => 'DataController@buyRecomendationData', 'middleware' => 'auth']);
+    $router->post('/recomendationdata/check',  ['uses' => 'DataController@checkRecomendationData', 'middleware' => 'auth']);
     
 });

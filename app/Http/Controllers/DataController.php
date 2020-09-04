@@ -125,4 +125,17 @@ class DataController extends Controller
         //     return null;
         // }
     }
+
+    public function checkRecomendationData(Request $request) {
+        $data = RecomendationData::where("data_id", $request->data_id)
+                ->where("recomendation_type", $request->recomendation)
+                ->where("date", $request->date)
+                ->first();
+        
+        if(!$data) return $this->responseError("Belum berlangganan");
+        return $this->responseOK("OK");
+
+        return 0;
+    }
+
 }
