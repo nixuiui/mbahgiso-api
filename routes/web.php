@@ -37,8 +37,10 @@ $router->group(['middleware' => 'auth'], function ($router) {
     $router->get('/recomendation/{type}',   ['uses' => 'DataController@getRecomendation', 'middleware' => 'auth']);
     $router->post('/recomendation/buy',     ['uses' => 'DataController@buyRecomendation', 'middleware' => 'auth']);
     $router->get('/recomendation/today',    ['uses' => 'DataController@todayRecomendation', 'middleware' => 'auth']);
-    $router->get('/recomendationdata/today',   ['uses' => 'DataController@todayRecomendationData', 'middleware' => 'auth']);
-    $router->post('/recomendationdata/buy',    ['uses' => 'DataController@buyRecomendationData', 'middleware' => 'auth']);
-    $router->post('/recomendationdata/check',  ['uses' => 'DataController@checkRecomendationData', 'middleware' => 'auth']);
+    $router->get('/recomendationdata/today',    ['uses' => 'DataController@todayRecomendationData', 'middleware' => 'auth']);
+    $router->post('/recomendationdata/buy',     ['uses' => 'DataController@buyRecomendationData', 'middleware' => 'auth']);
+    $router->post('/recomendationdata/check',   ['uses' => 'DataController@checkRecomendationData', 'middleware' => 'auth']);
+    $router->post('/dividen/buy',               ['uses' => 'DataController@buyDividen', 'middleware' => 'auth']);
+    $router->post('/dividen/check',             ['uses' => 'DataController@checkDividen', 'middleware' => 'auth']);
     
 });

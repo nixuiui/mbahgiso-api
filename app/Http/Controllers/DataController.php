@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\DividenForUser;
 use App\Models\RecomendationData;
 use App\Models\RecomendationForUser;
 use App\Models\RecomendationPrice;
@@ -20,10 +21,10 @@ class DataController extends Controller
     }
 
     public function buyRecomendation(Request $request) {
+        $price = RecomendationPrice::where("recomendation", $request->recomendation)->first();
+        if(!$price) return $this->responseError("Harga Tidak Ada");
+
         if($request->type == "recomendation") {
-            $price = RecomendationPrice::where("recomendation", $request->recomendation)->first();
-            if(!$price) return $this->responseError("Harga Tidak Ada");
-            
             $check = RecomendationForUser::where("date", date("Y-m-d"))
                         ->where("recomendation_type", $request->recomendation)
                         ->where("user_id", Auth::id())
@@ -43,9 +44,6 @@ class DataController extends Controller
             });
             return $this->responseOK($data);
         } else if($request->type == "recomendation-data") {
-            $price = RecomendationPrice::where("recomendation", $request->recomendation)->first();
-            if(!$price) return $this->responseError("Harga Tidak Ada");
-            
             $check = RecomendationData::where("date", date("Y-m-d"))
                         ->where("data_id", $request->data_id)
                         ->where("recomendation_type", $request->recomendation)
@@ -57,7 +55,7 @@ class DataController extends Controller
             $data->user_id = Auth::id();
             $data->data_id = $request->data_id;
             $data->recomendation_type = $request->recomendation;
-            $data->price = $price->price;
+            $data->price = $request->price;
             $data->date = date("Y-m-d");
             $data->save();
             
@@ -132,10 +130,33 @@ class DataController extends Controller
                 ->where("date", $request->date)
                 ->first();
         
-        if(!$data) return $this->responseError("Belum berlangganan");
+        if(!$data) return $this->responseError("Belum beli");
         return $this->responseOK("OK");
 
         return 0;
+    }
+
+    public function buyDividen(Request $request) {
+        $check = DividenForUser::where("data_id", $request->data_id)
+                    ->where("user_id", Auth::id())
+                    ->first();
+        if($check) return $this->responseError("Sudah beli");
+
+        $data = new DividenForUser;
+        $data->user_id = Auth::id();
+        $data->data_id = $request->data_id;
+        $data->price = $request->price;
+        $data->save();
+        
+        return $this->responseOK("OK");
+    }
+
+    public function checkDividen(Request $request) {
+        $check = DividenForUser::where("data_id", $request->data_id)
+                    ->where("user_id", Auth::id())
+                    ->first();
+        if(!$check) return $this->responseError("Belum beli");
+        return $this->responseOK("OK");
     }
 
 }
