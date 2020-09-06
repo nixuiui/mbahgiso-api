@@ -33,6 +33,7 @@ $router->group(['middleware' => 'auth'], function ($router) {
     $router->post('/profile/edit',      ['uses' => 'ProfileController@editProfile', 'middleware' => 'auth']);
     $router->post('/profile/topup',     ['uses' => 'ProfileController@topup', 'middleware' => 'auth']);
     
+    $router->get('/news',                   ['uses' => 'DataController@news', 'middleware' => 'auth']);
     $router->get('/market/index',           ['uses' => 'DataController@marketIndex', 'middleware' => 'auth']);
     $router->get('/market/komoditas',       ['uses' => 'DataController@marketKomoditas', 'middleware' => 'auth']);
     $router->get('/dividens',               ['uses' => 'DataController@dividens', 'middleware' => 'auth']);

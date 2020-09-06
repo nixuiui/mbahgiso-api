@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Dividen;
 use App\Models\DividenForUser;
 use App\Models\Market;
+use App\Models\News;
 use App\Models\Recomendation;
 use App\Models\RecomendationData;
 use App\Models\RecomendationForUser;
@@ -134,6 +135,10 @@ class DataController extends Controller
     
     public function dividens() {
         return Dividen::get();
+    }
+    
+    public function news() {
+        return News::get();
     }
 
     public function checkRecomendationData(Request $request) {
