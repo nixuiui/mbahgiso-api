@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dividen;
 use App\Models\DividenForUser;
+use App\Models\Market;
+use App\Models\Recomendation;
 use App\Models\RecomendationData;
 use App\Models\RecomendationForUser;
 use App\Models\RecomendationPrice;
@@ -109,19 +112,28 @@ class DataController extends Controller
         return $this->responseOK($data);
     }
 
+    public function recomendationTrading() {
+        return Recomendation::where("kategori", "trading")->get();
+    }
+    
+    public function recomendationSwing() {
+        return Recomendation::where("kategori", "swing")->get();
+    }
+
+    public function recomendationInvest() {
+        return Recomendation::where("kategori", "invest")->get();
+    }
+    
     public function marketIndex() {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://script.google.com/macros/s/AKfycbxS4eCKGo--UbuEyXorXpxUZU9nh9l7zoDt5Dpyx1cqZ1zVRK4/exec?id=1nRpCP1qZ5LjNZApDS4w5Xg4MTxfGhgFC8ews0_tpipc&amp;sheet=index");
-        // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        return curl_exec($ch);
-        $result = json_decode(curl_exec($ch));
-        return $result;
-        // if($result->success == true) {
-        // }
-        // else {
-        //     return null;
-        // }
+        return Market::where("market_category", "index")->get();
+    }
+    
+    public function marketKomoditas() {
+        return Market::where("market_category", "komoditas")->get();
+    }
+    
+    public function dividens() {
+        return Dividen::get();
     }
 
     public function checkRecomendationData(Request $request) {
