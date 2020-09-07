@@ -47,42 +47,6 @@ class ProfileController extends Controller
         if ($request->username) {
             $data->username = $request->username;
         }
-        if ($request->birth_date) {
-            $data->birth_date = $request->birth_date;
-        }
-        if ($request->province_id) {
-            $data->province_id = $request->province_id;
-        }
-        if ($request->nip) {
-            $data->nip = $request->nip;
-        }
-        if ($request->province_name) {
-            $data->province_name = $request->province_name;
-        }
-        if ($request->city_id) {
-            $data->city_id = $request->city_id;
-        }
-        if ($request->city_name) {
-            $data->city_name = $request->city_name;
-        }
-        if ($request->school) {
-            $data->school = $request->school;
-        }
-        if ($request->grade_level) {
-            $data->grade_level = $request->grade_level;
-        }
-        if ($request->whatsapp) {
-            $data->whatsapp = $request->whatsapp;
-        }
-        if ($request->whatsapp) {
-            $data->whatsapp = $request->whatsapp;
-        }
-        if ($request->parent_phone_number) {
-            $data->parent_phone_number = $request->parent_phone_number;
-        }
-        if($request->profile_image) {
-            $data->profile_image = $this->uploadImage($request->profile_image);
-        }
 
         if ($request->old_password) {
             if ($request->password) {

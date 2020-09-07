@@ -66,7 +66,6 @@ class AuthController extends Controller
         $user->username = $request->username;
         $user->email = $request->email;
         $user->password = app('hash')->make($request->password);
-        $user->city = $request->city;
         $user->phone_number = $request->phone_number;
         if($user->save()) {
             $loginWithUsername = app('auth')->attempt(['username' => $request->username, 'password' => $request->password]);
