@@ -48,6 +48,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'email' => $data->email,
             'phone_number' => $data->phone_number,
             'balance' => $data->balance,
+            'contact_person' => "6285269963564",
         ];
         if($additionalAttribute) {
             $result = array_merge($result, $additionalAttribute);
