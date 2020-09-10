@@ -125,6 +125,10 @@ class DataController extends Controller
         return Recomendation::where("kategori", "invest")->get();
     }
     
+    public function recomendationDividen() {
+        return Recomendation::where("kategori", "dividen")->get();
+    }
+    
     public function marketIndex() {
         return Market::where("market_category", "index")->get();
     }

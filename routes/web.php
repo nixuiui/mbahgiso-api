@@ -40,6 +40,7 @@ $router->group(['middleware' => 'auth'], function ($router) {
     $router->get('/recomendation/trading',  ['uses' => 'DataController@recomendationTrading', 'middleware' => 'auth']);
     $router->get('/recomendation/swing',    ['uses' => 'DataController@recomendationSwing', 'middleware' => 'auth']);
     $router->get('/recomendation/invest',   ['uses' => 'DataController@recomendationInvest', 'middleware' => 'auth']);
+    $router->get('/recomendation/dividen',  ['uses' => 'DataController@recomendationDividen', 'middleware' => 'auth']);
     $router->get('/recomendation/{type}',   ['uses' => 'DataController@getRecomendation', 'middleware' => 'auth']);
     $router->post('/recomendation/buy',     ['uses' => 'DataController@buyRecomendation', 'middleware' => 'auth']);
     $router->get('/recomendation/today',    ['uses' => 'DataController@todayRecomendation', 'middleware' => 'auth']);
