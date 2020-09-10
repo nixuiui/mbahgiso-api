@@ -25,6 +25,21 @@ class ProfileController extends Controller
                                     ->first();
         return $this->responseOK(User::mapData($data, ['consultation' => $checkConsultationToday != null]));
     }
+    
+    public function buyConsultation() {
+        $today = date("Y-m-d");
+        $check = Consultation::where("user_id", Auth::id())
+                                    ->where("date", $today)
+                                    ->first();
+        if($check) return $this->responseError("Sudah beli");
+
+        $data = new Consultation;
+        $data->user_id = Auth::id();
+        $data->date = $today;
+        $data->save();
+        
+        return $this->responseOK("OK");
+    }
 
     public function editProfile(Request $request) {
         $id = Auth::user()->id;
