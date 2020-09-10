@@ -20,7 +20,7 @@ class ProfileController extends Controller
         if (!$data) {
             return $this->responseError("Data Tidak Ditemukan");
         }
-        $checkConsultationToday = Consultation::where("user_id", $data)
+        $checkConsultationToday = Consultation::where("user_id", $data->id)
                                     ->where("date", date("Y-m-d"))
                                     ->first();
         return $this->responseOK(User::mapData($data, ['consultation' => $checkConsultationToday != null]));
