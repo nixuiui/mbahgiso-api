@@ -37,8 +37,8 @@ class ProfileController extends Controller
         $data->user_id = Auth::id();
         $data->date = $today;
         $data->save();
-        
-        return $this->responseOK("OK");
+        $data = User::where("id", Auth::user()->id)->first();
+        return $this->responseOK(User::mapData($data, ['consultation' => true]));
     }
 
     public function editProfile(Request $request) {
