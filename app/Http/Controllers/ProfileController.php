@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\BalanceTopup;
 use App\Models\User;
+use App\Models\Consultation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,11 +16,14 @@ class ProfileController extends Controller
 {
 
     public function getProfileDetail() {
-        $class = User::where("id", Auth::user()->id)->first();
-        if (!$class) {
+        $data = User::where("id", Auth::user()->id)->first();
+        if (!$data) {
             return $this->responseError("Data Tidak Ditemukan");
         }
-        return $this->responseOK(User::mapData($class));
+        $checkConsultationToday = Consultation::where("user_id", $data)
+                                    ->where("date", date("Y-m-d"))
+                                    ->first();
+        return $this->responseOK(User::mapData($data, ['consultation' => $checkConsultationToday != null]));
     }
 
     public function editProfile(Request $request) {
