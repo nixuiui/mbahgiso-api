@@ -48,7 +48,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'email' => $data->email,
             'phone_number' => $data->phone_number,
             'balance' => $data->balance,
-            'consultation_price' => 100000,
+            'consultation_price' => 88888,
             'contact_person' => "6285269963564",
         ];
         if($additionalAttribute) {
