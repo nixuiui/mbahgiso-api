@@ -48,8 +48,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'email' => $data->email,
             'phone_number' => $data->phone_number,
             'balance' => $data->balance,
-            'consultation_price' => 88888,
             'contact_person' => "6285269963564",
+            'consultation_price' => 88888,
+            'consultation_cp' => "6285269963564",
+            'live_trading_price' => 188881,
+            'live_trading_cp' => "6285269963564",
         ];
         if($additionalAttribute) {
             $result = array_merge($result, $additionalAttribute);

@@ -50,5 +50,6 @@ $router->group(['middleware' => 'auth'], function ($router) {
     $router->post('/dividen/buy',               ['uses' => 'DataController@buyDividen', 'middleware' => 'auth']);
     $router->post('/dividen/check',             ['uses' => 'DataController@checkDividen', 'middleware' => 'auth']);
     $router->get('/consultation/buy',           ['uses' => 'ProfileController@buyConsultation', 'middleware' => 'auth']);
+    $router->get('/livetrading/buy',            ['uses' => 'ProfileController@buyLiveTrading', 'middleware' => 'auth']);
     
 });

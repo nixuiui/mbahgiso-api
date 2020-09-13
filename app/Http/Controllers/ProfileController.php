@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\BalanceTopup;
 use App\Models\User;
 use App\Models\Consultation;
+use App\Models\LiveTrading;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class ProfileController extends Controller
 {
@@ -23,7 +23,13 @@ class ProfileController extends Controller
         $checkConsultationToday = Consultation::where("user_id", $data->id)
                                     ->where("date", date("Y-m-d"))
                                     ->first();
-        return $this->responseOK(User::mapData($data, ['consultation' => $checkConsultationToday != null]));
+        $checkLiveTrading = LiveTrading::where("user_id", $data->id)
+                                    ->where("date", date("Y-m-d"))
+                                    ->first();
+        return $this->responseOK(User::mapData($data, [
+            'consultation' => $checkConsultationToday != null,
+            'live_trading' => $checkLiveTrading != null,
+        ]));
     }
     
     public function buyConsultation() {
@@ -38,7 +44,22 @@ class ProfileController extends Controller
         $data->date = $today;
         $data->save();
         $data = User::where("id", Auth::user()->id)->first();
-        return $this->responseOK(User::mapData($data, ['consultation' => true]));
+        return $this->getProfileDetail();
+    }
+    
+    public function buyLiveTrading() {
+        $today = date("Y-m-d");
+        $check = LiveTrading::where("user_id", Auth::id())
+                                    ->where("date", $today)
+                                    ->first();
+        if($check) return $this->responseError("Sudah beli");
+
+        $data = new LiveTrading;
+        $data->user_id = Auth::id();
+        $data->date = $today;
+        $data->save();
+        $data = User::where("id", Auth::user()->id)->first();
+        return $this->getProfileDetail();
     }
 
     public function editProfile(Request $request) {
