@@ -41,6 +41,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     // $data is Array Data
     // $additionalAttribute is Array Data
     public static function mapData($data, $additionalAttribute = null) {
+        $checkConsultationToday = Consultation::where("user_id", $data->id)
+                                    ->where("date", date("Y-m-d"))
+                                    ->first();
+        $checkLiveTrading = LiveTrading::where("user_id", $data->id)
+                                    ->where("date", date("Y-m-d"))
+                                    ->first();
         $result = [
             'id' => $data->id,
             'name' => $data->name,
@@ -53,6 +59,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'consultation_cp' => "6285269963564",
             'live_trading_price' => 188881,
             'live_trading_cp' => "6285269963564",
+            'consultation' => $checkConsultationToday != null,
+            'live_trading' => $checkLiveTrading != null,
         ];
         if($additionalAttribute) {
             $result = array_merge($result, $additionalAttribute);

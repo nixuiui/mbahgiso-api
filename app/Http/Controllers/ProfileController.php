@@ -20,16 +20,7 @@ class ProfileController extends Controller
         if (!$data) {
             return $this->responseError("Data Tidak Ditemukan");
         }
-        $checkConsultationToday = Consultation::where("user_id", $data->id)
-                                    ->where("date", date("Y-m-d"))
-                                    ->first();
-        $checkLiveTrading = LiveTrading::where("user_id", $data->id)
-                                    ->where("date", date("Y-m-d"))
-                                    ->first();
-        return $this->responseOK(User::mapData($data, [
-            'consultation' => $checkConsultationToday != null,
-            'live_trading' => $checkLiveTrading != null,
-        ]));
+        return $this->responseOK(User::mapData($data));
     }
     
     public function buyConsultation() {
@@ -44,7 +35,7 @@ class ProfileController extends Controller
         $data->date = $today;
         $data->save();
         $data = User::where("id", Auth::user()->id)->first();
-        return $this->getProfileDetail();
+        return $this->responseOK(User::mapData($data));
     }
     
     public function buyLiveTrading() {
@@ -59,7 +50,7 @@ class ProfileController extends Controller
         $data->date = $today;
         $data->save();
         $data = User::where("id", Auth::user()->id)->first();
-        return $this->getProfileDetail();
+        return $this->responseOK(User::mapData($data));
     }
 
     public function editProfile(Request $request) {
