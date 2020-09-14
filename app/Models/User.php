@@ -61,6 +61,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'live_trading_cp' => "6285269963564",
             'consultation' => $checkConsultationToday != null,
             'live_trading' => $checkLiveTrading != null,
+            'catatan_index' => "CATATAN INDEX",
+            'catatan_komoditas' => "CATATAN KOMODITAS",
         ];
         if($additionalAttribute) {
             $result = array_merge($result, $additionalAttribute);
