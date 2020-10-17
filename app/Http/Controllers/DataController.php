@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Auth;
 
 class DataController extends Controller
 {
-    public function getRecomendation($type) {
-        $data = Recomendation::where("kategori", $type)
+    public function getRecomendation($type = null) {
+        $data = Recomendation::where("kategori", "LIKE", "%".$type."%")
                     ->where("date", date("Y-m-d"))
                     ->get();
         return $data;
