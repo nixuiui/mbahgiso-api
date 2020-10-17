@@ -17,11 +17,10 @@ use Illuminate\Support\Facades\Auth;
 class DataController extends Controller
 {
     public function getRecomendation($type) {
-        $data = RecomendationForUser::where("user_id", Auth::user()->id)
-                        ->where("date", date("Y-m-d"))
-                        ->first();
-        if(!$data) return $this->responseError("Maaf Anda belum bisa mengakses rekomendasi " . $type . " hari ini");
-        return $this->responseOK(RecomendationForUser::mapData($data));
+        $data = Recomendation::where("kategori", $type)
+                    ->where("date", date("Y-m-d"))
+                    ->get();
+        return $data;
     }
 
     public function buyRecomendation(Request $request) {
@@ -97,13 +96,13 @@ class DataController extends Controller
         return $this->responseOK($data);
     }
     
-    public function todayRecomendation() {
-        $data = RecomendationForUser::where("date", date("Y-m-d"))->get();
-        $data = $data->map(function($item){
-            return RecomendationForUser::mapData($item);
-        });
-        return $this->responseOK($data);
-    }
+    // public function todayRecomendation() {
+    //     $data = RecomendationForUser::where("date", date("Y-m-d"))->get();
+    //     $data = $data->map(function($item){
+    //         return RecomendationForUser::mapData($item);
+    //     });
+    //     return $this->responseOK($data);
+    // }
     
     public function todayRecomendationData() {
         $data = RecomendationData::where("date", date("Y-m-d"))->get();
@@ -111,22 +110,6 @@ class DataController extends Controller
             return RecomendationData::mapData($item);
         });
         return $this->responseOK($data);
-    }
-
-    public function recomendationTrading() {
-        return Recomendation::where("kategori", "trading")->get();
-    }
-    
-    public function recomendationSwing() {
-        return Recomendation::where("kategori", "swing")->get();
-    }
-
-    public function recomendationInvest() {
-        return Recomendation::where("kategori", "invest")->get();
-    }
-    
-    public function recomendationDividen() {
-        return Recomendation::where("kategori", "dividen")->get();
     }
     
     public function marketIndex() {

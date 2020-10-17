@@ -49,6 +49,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                                     ->first();
         $result = [
             'id' => $data->id,
+            'role_id' => $data->role_id,
             'name' => $data->name,
             'username' => $data->username,
             'email' => $data->email,

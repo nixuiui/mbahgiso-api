@@ -12,7 +12,7 @@ trait BaseResponseTrait {
     // responseOK($varData, 200)
     public function responseOK($data, $responseCode = 200) {
         if(is_string($data))
-            return response()->json(["message" => $data], $responseCode);
+            return response()->json(["message" => $data], $responseCode, [], JSON_NUMERIC_CHECK);
         return response()->json($data, $responseCode);
     }
 
