@@ -18,7 +18,7 @@ class TopupController extends Controller
         if(isset($_GET['page']) && $_GET['page'] > 0) 
             $offset = ($_GET['page']-1)*$limit;
 
-        $data = BalanceTopup::offset($offset)->limit($limit)->get();
+        $data = BalanceTopup::offset($offset)->limit($limit)->orderBy("id", "desc")->get();
         $data = $data->map(function($item) {
             return BalanceTopup::mapData($item);
         });

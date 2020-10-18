@@ -37,6 +37,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function recomendations() {
         return $this->hasMany('App\Models\RecomendationForUser', 'user_id');
     }
+    public function balanceTopUp() {
+        return $this->hasMany('App\Models\BalanceTopup', 'user_id');
+    }
 
     // $data is Array Data
     // $additionalAttribute is Array Data
@@ -55,6 +58,40 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'email' => $data->email,
             'phone_number' => $data->phone_number,
             'balance' => $data->balance,
+            'contact_person' => "6285269963564",
+            'consultation_price' => 88888,
+            'consultation_cp' => "6285269963564",
+            'live_trading_price' => 188881,
+            'live_trading_cp' => "6285269963564",
+            'consultation' => $checkConsultationToday != null,
+            'live_trading' => $checkLiveTrading != null,
+            'catatan_index' => "CATATAN INDEX",
+            'catatan_komoditas' => "CATATAN KOMODITAS",
+        ];
+        if($additionalAttribute) {
+            $result = array_merge($result, $additionalAttribute);
+        }
+        return $result;
+    }
+    
+    // $data is Array Data
+    // $additionalAttribute is Array Data
+    public static function mapDataAdmin($data, $additionalAttribute = null) {
+        $checkConsultationToday = Consultation::where("user_id", $data->id)
+                                    ->where("date", date("Y-m-d"))
+                                    ->first();
+        $checkLiveTrading = LiveTrading::where("user_id", $data->id)
+                                    ->where("date", date("Y-m-d"))
+                                    ->first();
+        $result = [
+            'id' => $data->id,
+            'role_id' => $data->role_id,
+            'name' => $data->name,
+            'username' => $data->username,
+            'email' => $data->email,
+            'phone_number' => $data->phone_number,
+            'balance' => $data->balance,
+            'balance_topup' => $data->balanceTopUp,
             'contact_person' => "6285269963564",
             'consultation_price' => 88888,
             'consultation_cp' => "6285269963564",
