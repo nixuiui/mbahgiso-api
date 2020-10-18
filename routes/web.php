@@ -61,5 +61,7 @@ $router->group(['middleware' => 'admin', 'prefix' => "admin"], function ($router
     
     $router->get('/topup',                      ['uses' => 'Admin\TopupController@getData']);
     $router->get('/topup/verify/{id}',          ['uses' => 'Admin\TopupController@verifyTopup']);
+    
+    $router->get('/users',                      ['uses' => 'Admin\UserController@getData']);
 
 });
