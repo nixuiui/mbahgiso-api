@@ -58,5 +58,8 @@ $router->group(['middleware' => 'admin', 'prefix' => "admin"], function ($router
     $router->post('/recomendation/add',         ['uses' => 'Admin\RecomendationController@addData']);
     $router->post('/recomendation/edit/{id}',   ['uses' => 'Admin\RecomendationController@editData']);
     $router->get('/recomendation/delete/{id}',  ['uses' => 'Admin\RecomendationController@deleteData']);
+    
+    $router->get('/topup',                      ['uses' => 'Admin\TopupController@getData']);
+    $router->get('/topup/verify/{id}',          ['uses' => 'Admin\TopupController@verifyTopup']);
 
 });

@@ -14,6 +14,7 @@ class RecomendationController extends Controller
         $date = $_GET['date'] ?? date("Y-m-d");
         $data = Recomendation::where("kategori", "LIKE", "%".$type."%")
                     ->where("date", $date)
+                    ->orderBy("id", "desc")
                     ->get();
         return $data;
     }
@@ -50,7 +51,7 @@ class RecomendationController extends Controller
         return $data;
     }
     
-    public function deleteData(Request $input, $id) {
+    public function deleteData($id) {
         $data = Recomendation::find($id);
         if(!$data) return $this->responseError("Data tidak ada");
         if($data->delete())
