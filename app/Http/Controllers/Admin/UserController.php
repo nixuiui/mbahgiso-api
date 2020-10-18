@@ -16,7 +16,7 @@ class UserController extends Controller
         if(isset($_GET['page']) && $_GET['page'] > 0) 
             $offset = ($_GET['page']-1)*$limit;
 
-        $data = User::offset($offset)->limit($limit)->get();
+        $data = User::offset($offset)->limit($limit)->orderBy("name", "asc")->get();
         $data = $data->map(function($item) {
             return User::mapData($item);
         });
