@@ -18,7 +18,10 @@ class TopupController extends Controller
         if(isset($_GET['page']) && $_GET['page'] > 0) 
             $offset = ($_GET['page']-1)*$limit;
 
-        $data = BalanceTopup::offset($offset)->limit($limit)->orderBy("id", "desc")->get();
+        $data = BalanceTopup::where("status", "unpaid")
+                        ->offset($offset)
+                        ->limit($limit)
+                        ->orderBy("id", "desc")->get();
         $data = $data->map(function($item) {
             return BalanceTopup::mapData($item);
         });
@@ -26,7 +29,7 @@ class TopupController extends Controller
     }
 
     public function verifyTopup($id) {
-        $data = BalanceTopup::find($id);
+        $data = BalanceTopup::where("id", $id)->where("status", "unpaid")->first();
         if(!$data) return $this->responseError("Data tidak ditemukan");
 
         $data->status = "paid";

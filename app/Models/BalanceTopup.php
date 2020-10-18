@@ -17,7 +17,8 @@ class BalanceTopup extends Model {
     public static function mapData($data, $additionalAttribute = null) {
         $result = [
             'id' => $data->id,
-            'user' => User::mapData($data->user),
+            'name' => $data->user->name,
+            'phone_number' => $data->user->phone_number,
             'balance' => $data->balance,
             'status' => $data->status,
             'expired_date' => $data->expired_date,
