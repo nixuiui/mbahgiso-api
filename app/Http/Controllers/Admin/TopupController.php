@@ -25,7 +25,7 @@ class TopupController extends Controller
         $data = $data->map(function($item) {
             return BalanceTopup::mapData($item);
         });
-        return $data;
+        return $this->responseOK($data);
     }
 
     public function verifyTopup($id) {
@@ -34,7 +34,7 @@ class TopupController extends Controller
 
         $data->status = "paid";
         $data->save();
-        return BalanceTopup::mapData($data);
+        return $this->responseOK(BalanceTopup::mapData($data));
     }
 
 }
